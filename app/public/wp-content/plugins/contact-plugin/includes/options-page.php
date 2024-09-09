@@ -14,9 +14,18 @@ function load_carbon_fields()
 
 function create_options_page()
 {
-    Container::make('theme_options', __('Theme Options'))
+    Container::make('theme_options', __('Contact Form'))
+        ->set_icon('dashicons-media-text')
         ->add_fields(array(
-            Field::make('text', 'contact_plugin_recepients', __('Recipient Email')),
-            Field::make('textarea', 'contact_plugin_message', __('Confirmation Message')),
+
+            Field::make('checkbox', 'contact_plugin_active', __('Active')),
+
+            Field::make('text', 'contact_plugin_recepients', __('Recipient Email'))
+                ->set_attribute('placeholder', 'eg. your@email.com')
+                ->set_help_text('The email that the form is subnitted to'),
+
+            Field::make('textarea', 'contact_plugin_message', __('Confirmation Message'))
+                ->set_attribute('placeholder', 'Enter confirmation message')
+                ->set_help_text('Type the message you want the submitter to receive'),
         ));
 }
