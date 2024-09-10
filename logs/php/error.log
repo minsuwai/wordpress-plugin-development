@@ -2,3 +2,23 @@
 [09-Sep-2024 08:28:44 UTC] PHP Warning:  include_once(): Failed opening 'C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-content\plugins\contact-plugin//includes/utilities.php' for inclusion (include_path='.:/usr/share/php:/www/wp-content/pear') in C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-content\plugins\contact-plugin\contact-plugin.php on line 28
 [09-Sep-2024 08:28:44 UTC] PHP Warning:  include_once(C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-content\plugins\contact-plugin//includes/utilities.php): Failed to open stream: No such file or directory in C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-content\plugins\contact-plugin\contact-plugin.php on line 28
 [09-Sep-2024 08:28:44 UTC] PHP Warning:  include_once(): Failed opening 'C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-content\plugins\contact-plugin//includes/utilities.php' for inclusion (include_path='.:/usr/share/php:/www/wp-content/pear') in C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-content\plugins\contact-plugin\contact-plugin.php on line 28
+[10-Sep-2024 05:59:31 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function get_plugin_options() in C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-content\plugins\contact-plugin\includes\templates\contact-form.php:1
+Stack trace:
+#0 C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-content\plugins\contact-plugin\includes\contact-form.php(9): include()
+#1 C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-includes\shortcodes.php(434): show_contact_form(Array, '', 'contact')
+#2 [internal function]: do_shortcode_tag(Array)
+#3 C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-includes\shortcodes.php(273): preg_replace_callback('/\\[(\\[?)(contac...', 'do_shortcode_ta...', '\n<p>This is an ...')
+#4 C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-includes\class-wp-hook.php(324): do_shortcode('\n<p>This is an ...')
+#5 C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-includes\plugin.php(205): WP_Hook->apply_filters('\n<p>This is an ...', Array)
+#6 C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-includes\blocks\post-content.php(50): apply_filters('the_content', '<!-- wp:paragra...')
+#7 C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-includes\class-wp-block.php(519): render_block_core_post_content(Array, '<!-- wp:paragra...', Object(WP_Block))
+#8 C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-includes\class-wp-block.php(499): WP_Block->render()
+#9 C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-includes\blocks.php(2061): WP_Block->render()
+#10 C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-includes\blocks.php(2113): render_block(Array)
+#11 C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-includes\block-template.php(260): do_blocks('<!-- wp:templat...')
+#12 C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-includes\template-canvas.php(12): get_the_block_template_html()
+#13 C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-includes\template-loader.php(106): include('C:\\Users\\Admin\\...')
+#14 C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-blog-header.php(19): require_once('C:\\Users\\Admin\\...')
+#15 C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\index.php(17): require('C:\\Users\\Admin\\...')
+#16 {main}
+  thrown in C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-content\plugins\contact-plugin\includes\templates\contact-form.php on line 1

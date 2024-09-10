@@ -1,4 +1,10 @@
+<div id="form_success" style="background: green; color: #FFF;"></div>
+<div id="form_error" style="background: red; color: #FFF;"></div>
+
 <form id="enquiry_form" method="post">
+
+    <?php wp_nonce_field('wp_rest'); ?>
+
     <label for="">Name</label><br>
     <input type="text" name="name"><br><br>
     <label for="">Email</label><br>
@@ -16,7 +22,26 @@
 <script>
     jQuery(document).ready(function($) {
         $("#enquiry_form").submit(function(event) {
-            alert('Form submitted');
+
+            event.preventDefault();
+
+            var form = $(this);
+
+            console.log(form.serialize());
+
+            $.ajax({
+                type: "POST",
+                url: "<?php echo esc_url( get_rest_url(null, 'my-plugin/v1/contact-form/submit') ); ?>",
+                data: form.serialize(),
+                success: function() {
+                    form.hide();
+                    $("#form_success").html("Your message was sent").fadeIn();
+                },
+                error: function() {
+                    $("#form_error").html("There was an error submitting your form").fadeIn();
+                }
+            });
+
         });
     });
 </script>
