@@ -8,6 +8,43 @@ add_action('init', 'create_submissions_page');
 
 add_action('add_meta_boxes', 'create_meta_box');
 
+add_filter('manage_submisstion_posts_columns', 'custom_submission_columns');
+
+add_action('manage_submisstion_posts_custom_column', 'fill_submission_columns', 10, 2);
+
+function fill_submission_columns($column, $post_id)
+{
+
+    switch ($column) {
+        case 'name':
+            echo get_post_meta($post_id, 'name', true);
+            break;
+        case 'email':
+            echo get_post_meta($post_id, 'email', true);
+            break;
+        case 'phone':
+            echo get_post_meta($post_id, 'phone', true);
+            break;
+        case 'message':
+            echo get_post_meta($post_id, 'message', true);
+            break;
+    }
+}
+
+function custom_submission_columns($columns)
+{
+
+    $columns = array(
+        'cb' => '<input type="checkbox" />',
+        'name' => __('Name', 'contact-plugin'),
+        'email' => __('Email', 'contact-plugin'),
+        'phone' => __('Phone', 'contact-plugin'),
+        'message' => __('Message', 'contact-plugin')
+    );
+
+    return $columns;
+}
+
 function create_meta_box()
 {
 
