@@ -1,5 +1,9 @@
 <?php
 
+if (!defined('ABSPATH')) {
+    die('You can not access this file directly');
+}
+
 add_shortcode('contact', 'show_contact_form');
 
 add_action('rest_api_init', 'create_rest_endpoint');
@@ -164,21 +168,28 @@ function handle_enquiry($data)
     $admin_email = get_bloginfo('admin_email');
     $admin_name = get_bloginfo('name');
 
+    // set recipient email
+    $recipient_email = get_plugin_options('contact_plugin_recepients');
+
+    if (!($recipient_email)) {
+        $recipient_email = $admin_email;
+    }
+
     $headers[] = "From: {$admin_name} <{$admin_email}>";
-    $headers[] = "Reply-to: " . esc_html($params['name']) . " <" . esc_html($params['email']) . ">";
+    $headers[] = "Reply-to: " . sanitize_text_field($params['name']) . " <" . sanitize_email($params['email']) . ">";
     $headers[] = "Content-type: text/html";
 
-    $subject = "New enquiry from " . esc_html($params['name']);
+    $subject = "New enquiry from " . sanitize_text_field($params['name']);
 
     $message = '';
-    $message .= "<h1>Message has been sent from " . esc_html($params['name']) . "</h1>";
+    $message .= "<h1>Message has been sent from " . sanitize_text_field($params['name']) . "</h1>";
 
     foreach ($params as $label => $value) {
-        $message .= '<strong>' . esc_html(ucfirst($label)) . '</strong>: ' . esc_html($value) . '<br>';
+        $message .= '<strong>' . sanitize_text_field(ucfirst($label)) . '</strong>: ' . sanitize_text_field($value) . '<br>';
     }
 
     $postarr = [
-        'post_title' => esc_html($params['name']),
+        'post_title' => sanitize_text_field($params['name']),
         'post_type' => 'submisstion',
         'post_status' => 'publish',
     ];
@@ -189,7 +200,17 @@ function handle_enquiry($data)
         add_post_meta($post_id, $label, sanitize_text_field($value));
     }
 
-    wp_mail($admin_email, $subject, $message, $headers);
+    wp_mail($recipient_email, $subject, $message, $headers);
 
-    return new WP_REST_Response('The message was sent successfully', 200);
+    //set confirmation message
+    $confirmation_message = "The message was sent successfully!!";
+
+    if (get_plugin_options('contact_plugin_message')) {
+        $confirmation_message = get_plugin_options('contact_plugin_message');
+
+        $confirmation_message = str_replace('{name}', $params['name'], $confirmation_message);
+    }
+
+    //return successful response
+    return new WP_REST_Response($confirmation_message, 200);
 }

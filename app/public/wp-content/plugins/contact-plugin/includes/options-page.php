@@ -1,5 +1,9 @@
 <?php
 
+if (!defined('ABSPATH')) {
+    die('You can not access this file directly');
+}
+
 use Carbon_Fields\Carbon_Fields;
 use Carbon_Fields\Container\Container;
 use Carbon_Fields\Field\Field;
