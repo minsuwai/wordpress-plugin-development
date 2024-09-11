@@ -120,9 +120,12 @@ function create_submissions_page()
     $args = [
         'public' => true,
         'has_archive' => true,
+        'menu_position' => 30,
+        'publicly_queryable' => false,
         'labels' => [
             'name' => 'Submissions',
             'singular_name' => 'Submission',
+            'edit_item' => 'View Submission',
         ],
         'supports' => false,
         // 'supports' => ['custom-fields']

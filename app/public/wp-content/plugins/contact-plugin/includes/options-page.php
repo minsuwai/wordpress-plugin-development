@@ -19,6 +19,7 @@ function load_carbon_fields()
 function create_options_page()
 {
     Container::make('theme_options', __('Contact Form'))
+        ->set_page_menu_position(30)
         ->set_icon('dashicons-media-text')
         ->add_fields(array(
 
