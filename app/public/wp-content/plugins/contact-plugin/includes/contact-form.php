@@ -14,6 +14,14 @@ add_action('manage_submisstion_posts_custom_column', 'fill_submission_columns', 
 
 add_action('admin_init', 'setup_search');
 
+add_action('wp_enqueue_scripts', 'enqueue_custom_scripts');
+
+function enqueue_custom_scripts()
+{
+
+    wp_enqueue_style('contact-form-plugin', MY_PLUGIN_URL . 'assets/css/contact-plugin.css');
+}
+
 function setup_search()
 {
     // Only apply filter to submissions page
@@ -56,16 +64,16 @@ function fill_submission_columns($column, $post_id)
 
     switch ($column) {
         case 'name':
-            echo get_post_meta($post_id, 'name', true);
+            echo esc_html(get_post_meta($post_id, 'name', true));
             break;
         case 'email':
-            echo get_post_meta($post_id, 'email', true);
+            echo esc_html(get_post_meta($post_id, 'email', true));
             break;
         case 'phone':
-            echo get_post_meta($post_id, 'phone', true);
+            echo esc_html(get_post_meta($post_id, 'phone', true));
             break;
         case 'message':
-            echo get_post_meta($post_id, 'message', true);
+            echo esc_html(get_post_meta($post_id, 'message', true));
             break;
     }
 }
@@ -98,9 +106,8 @@ function display_submission()
 
     echo '<ul>';
     foreach ($postmetas as $key => $value) {
-        echo '<li><strong>' . ucfirst($key) . '</strong>:</br>' . $value[0] . '</li>';
+        echo '<li><strong>' . esc_html(ucfirst($key)) . '</strong>:<br>' . esc_html($value[0]) . '</li>';
     }
-
     echo '</ul>';
 }
 
@@ -158,20 +165,20 @@ function handle_enquiry($data)
     $admin_name = get_bloginfo('name');
 
     $headers[] = "From: {$admin_name} <{$admin_email}>";
-    $headers[] = "Replay-to: {$params['name']} <{$params['email']}>";
+    $headers[] = "Reply-to: " . esc_html($params['name']) . " <" . esc_html($params['email']) . ">";
     $headers[] = "Content-type: text/html";
 
-    $subject = "New enquiry from {$params['name']}";
+    $subject = "New enquiry from " . esc_html($params['name']);
 
     $message = '';
-    $message .= "<h1>Message has been sent from {$params['name']}</h1>";
+    $message .= "<h1>Message has been sent from " . esc_html($params['name']) . "</h1>";
 
     foreach ($params as $label => $value) {
-        $message .= '<strong>' . ucfirst($label) . '</strong>: ' . $value . '<br>';
+        $message .= '<strong>' . esc_html(ucfirst($label)) . '</strong>: ' . esc_html($value) . '<br>';
     }
 
     $postarr = [
-        'post_title' => $params['name'],
+        'post_title' => esc_html($params['name']),
         'post_type' => 'submisstion',
         'post_status' => 'publish',
     ];
@@ -179,12 +186,10 @@ function handle_enquiry($data)
     $post_id = wp_insert_post($postarr);
 
     foreach ($params as $label => $value) {
-        $message .= '<strong>' . ucfirst($label) . '</strong>: ' . $value . '<br>';
-        add_post_meta($post_id, $label, $value);
+        add_post_meta($post_id, $label, sanitize_text_field($value));
     }
-
 
     wp_mail($admin_email, $subject, $message, $headers);
 
-    return new WP_REST_Response('The messsage was sent successfully', 200);
+    return new WP_REST_Response('The message was sent successfully', 200);
 }

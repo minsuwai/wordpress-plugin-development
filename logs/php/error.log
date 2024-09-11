@@ -22,3 +22,4 @@ Stack trace:
 #15 C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\index.php(17): require('C:\\Users\\Admin\\...')
 #16 {main}
   thrown in C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-content\plugins\contact-plugin\includes\templates\contact-form.php on line 1
+[11-Sep-2024 10:45:15 UTC] PHP Parse error:  syntax error, unexpected token "}" in C:\Users\Admin\Local Sites\wordpress-plugin-devlopment\app\public\wp-content\plugins\contact-plugin\includes\contact-form.php on line 22
